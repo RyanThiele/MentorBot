@@ -16,20 +16,21 @@ namespace DiscordBot
     public class Client
     {
         public DiscordSocketClient SocketClient { get; }
-        public HashSet<Mentor> Mentors { get; private set;  }
-        public HashSet<Mentee> Mentees { get; private set; }
+        public Dictionary<ulong, User> Mentors { get; set;  }
+        public Dictionary<ulong, User> Mentees { get; set; }
+
+        public UserDb Database = new UserDb();
+
 
         private CommandService _commands;
         private IServiceProvider _services;
-        private UserDb _db = new UserDb();
 
         public Client()
         {
             SocketClient = new DiscordSocketClient();
 
-            Task task = Task.Factory.StartNew(() => Mentors = _db.LoadMentors());
-            Task task2 = Task.Factory.StartNew(() => Mentees = _db.LoadMentees());
-            Task.WaitAll(task, task2);
+            Mentors = Database.LoadMentors();
+            Mentees = Database.LoadMentees();
         }
 
         public async Task RunAsync()
@@ -66,11 +67,12 @@ namespace DiscordBot
             var context = new SocketCommandContext(SocketClient, msg);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
 
-            if (result.IsSuccess)
-            {
-                var options = new RequestOptions { RetryMode = RetryMode.AlwaysRetry };
-                await msg.DeleteAsync(options);
-            }
+            if (!result.IsSuccess)
+                return;
+            
+            var options = new RequestOptions { RetryMode = RetryMode.AlwaysRetry };
+            await msg.DeleteAsync(options);
+            
         }
 
         private Task Log(LogMessage arg)

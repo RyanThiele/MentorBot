@@ -9,10 +9,6 @@ namespace DiscordBot
 
         public static readonly Client Client = new Client();
 
-        static async Task Main(string[] args)
-        {
-            await Client.RunAsync();
-            
-        } 
+        static async Task Main(string[] args) => await Client.RunAsync();
     }
 }

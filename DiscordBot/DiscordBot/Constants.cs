@@ -8,8 +8,8 @@ namespace DiscordBot
     {
         public const string TOKEN = "NTk3MTU2NzA5NTE2OTY3OTM2.XSEF9w.A-m5HMu1BAXnbomJAFm7kUTOX1E";
 
-        public const string MENTEE_FILE_PATH = "D:/Workspace/Mentees";
-        public const string MENTOR_FILE_PATH = "D:/Workspace/Mentors";
+        public const string MENTEE_FILE_PATH = "C:/Workspace/Mentees";
+        public const string MENTOR_FILE_PATH = "C:/Workspace/Mentors";
 
 
         public enum Languages

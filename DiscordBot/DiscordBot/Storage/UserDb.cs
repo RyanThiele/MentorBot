@@ -15,47 +15,62 @@ namespace DiscordBot.Storage
         private Stream _readStream;
 
 
-        public HashSet<Mentee> LoadMentees()
+        public Dictionary<ulong, User> LoadMentees()
         {
+            if (!File.Exists(Constants.MENTEE_FILE_PATH)) return new Dictionary<ulong, User>();
             _readStream = new FileStream(Constants.MENTEE_FILE_PATH, FileMode.Open, FileAccess.Read);
-            return DeserializeFile<Mentee>(_readStream);
+            return DeserializeFile(_readStream) ?? new Dictionary<ulong, User>();
         }
 
-        public HashSet<Mentor> LoadMentors()
+        public Dictionary<ulong, User> LoadMentors()
         {
+            if (!File.Exists(Constants.MENTOR_FILE_PATH)) return new Dictionary<ulong, User>();
             _readStream = new FileStream(Constants.MENTOR_FILE_PATH, FileMode.Open, FileAccess.Read);
-            return DeserializeFile<Mentor>(_readStream);
+
+            return DeserializeFile(_readStream) == null ? DeserializeFile(_readStream) : new Dictionary<ulong, User>();
         }
 
-        private static HashSet<T> DeserializeFile<T>(Stream fs)
+        private static Dictionary<ulong, User> DeserializeFile(Stream fs)
         {
             BinaryFormatter bf = new BinaryFormatter();
-            HashSet<T> list = new HashSet<T>();
+            Dictionary<ulong, User> list = new Dictionary<ulong, User>();
             while (fs.Position != fs.Length)
             {
-                var deserialized = (T)bf.Deserialize(fs);
-                list.Add(deserialized);
+                var deserialized = (User)bf.Deserialize(fs);
+                list.Add(deserialized.Id, deserialized);
             }
             return list;
         }
 
-        public void Save(HashSet<Mentee> users)
+        public void SaveMentees(Dictionary<ulong, User> users)
         {
             _writeStream = new FileStream(Constants.MENTEE_FILE_PATH, FileMode.Append, FileAccess.Write);
-            foreach (var user in users)
+            foreach (var user in users.Values)
             {
                 Save(user);
             }
         }
 
-        public void Save(HashSet<Mentor> users)
+        public void SaveMentors(Dictionary<ulong, User> users)
         {
             _writeStream = new FileStream(Constants.MENTOR_FILE_PATH, FileMode.Append, FileAccess.Write);
 
-            foreach (var user in users)
+            foreach (var user in users.Values)
             {
-                Save(user);
+                SaveMentor(user);
             }
+        }
+
+        public void SaveMentee(User user)
+        {
+            _writeStream = new FileStream(Constants.MENTEE_FILE_PATH, FileMode.Append, FileAccess.Write);
+            Save(user);
+        }
+
+        public void SaveMentor(User user)
+        {
+            _writeStream = new FileStream(Constants.MENTOR_FILE_PATH, FileMode.Append, FileAccess.Write);
+            Save(user);
         }
 
         private void Save(User user)
