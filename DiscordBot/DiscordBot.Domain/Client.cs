@@ -16,11 +16,8 @@ namespace DiscordBot
     public class Client
     {
         public DiscordSocketClient SocketClient { get; }
-        public Dictionary<ulong, User> Mentors { get; set;  }
-        public Dictionary<ulong, User> Mentees { get; set; }
 
-        public UserDb Database = new UserDb();
-
+        IMenteeRepository
 
         private CommandService _commands;
         private IServiceProvider _services;
