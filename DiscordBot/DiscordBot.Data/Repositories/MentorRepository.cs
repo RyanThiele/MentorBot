@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DiscordBot.Domain.Models;
+using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiscordBot.Data.Repositories
 {
     public class MentorRepository : IDisposable, IMentorRepository
     {
-        private MentorContext _context;
+        private readonly MentorContext _context;
 
         public MentorRepository()
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DiscordBot.Domain.Models;
+using DiscordBot.Data.Models;
 
 namespace DiscordBot.Data.Repositories
 {

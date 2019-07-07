@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DiscordBot.Domain
+namespace DiscordBot.Data
 {
     public static class Constants
     {
-        public const string TOKEN = ";
-
-        public const string MENTEE_FILE_PATH = "C:/Workspace/Mentees";
-        public const string MENTOR_FILE_PATH = "C:/Workspace/Mentors";
-
+        public const string TOKEN = " " ;
 
         public enum Languages
         {

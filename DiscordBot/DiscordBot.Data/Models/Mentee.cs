@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBot.Domain.Models
+namespace DiscordBot.Data.Models
 {
     public class Mentee : IUser
     {

@@ -1,9 +1,9 @@
-﻿using DiscordBot.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiscordBot.Data.Repositories

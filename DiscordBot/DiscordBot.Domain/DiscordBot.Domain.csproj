@@ -203,17 +203,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\IUser.cs" />
-    <Compile Include="Models\Mentee.cs" />
-    <Compile Include="Models\Mentor.cs" />
     <Compile Include="Modules\Ping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DiscordBot.Data\DiscordBot.Data.csproj">
+      <Project>{12E31349-EE2A-4838-95A7-05D779F1AF23}</Project>
+      <Name>DiscordBot.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

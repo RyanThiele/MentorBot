@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DiscordBot.Domain.Models;
+using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-
+using Newtonsoft.Json;
 
 namespace DiscordBot.Data
 {
@@ -34,10 +34,17 @@ namespace DiscordBot.Data
             {
                 builder.Property(course => course.Id).IsRequired();
 
-                builder.Property(course => course.Languages)
+                builder.Property(course => course.Students)
                     .HasConversion(
                         value => JsonConvert.SerializeObject(value, Formatting.None),
-                        serializedValue => JsonConvert.DeserializeObject<Dictionary<Constants.Languages, Constants.Levels>>(serializedValue)
+                        serializedValue => JsonConvert.DeserializeObject<Dictionary<int, Mentee>>(serializedValue)
+                    )
+                    .IsRequired();
+
+                builder.Property(course => course.CourseDetails)
+                    .HasConversion(
+                        value => JsonConvert.SerializeObject(value, Formatting.None),
+                        serializedValue => JsonConvert.DeserializeObject<Tuple<Constants.Languages, Constants.Levels>>(serializedValue)
                     )
                     .IsRequired();
             });

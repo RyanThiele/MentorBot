@@ -7,17 +7,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
+using DiscordBot.Data;
 using Microsoft.Extensions.DependencyInjection;
-using DiscordBot.Registry;
-using DiscordBot.Storage;
 
-namespace DiscordBot
+namespace DiscordBot.Domain
 {
     public class Client
     {
         public DiscordSocketClient SocketClient { get; }
-
-        IMenteeRepository
 
         private CommandService _commands;
         private IServiceProvider _services;
@@ -25,9 +22,6 @@ namespace DiscordBot
         public Client()
         {
             SocketClient = new DiscordSocketClient();
-
-            Mentors = Database.LoadMentors();
-            Mentees = Database.LoadMentees();
         }
 
         public async Task RunAsync()

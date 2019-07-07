@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using DiscordBot.Domain;
-using DiscordBot.Domain.Models;
+using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
