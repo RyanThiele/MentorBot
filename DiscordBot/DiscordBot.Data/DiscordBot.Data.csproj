@@ -314,9 +314,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="CourseContext.cs" />
-    <Compile Include="MenteeContext.cs" />
-    <Compile Include="MentorContext.cs" />
+    <Compile Include="Contexts\CourseContext.cs" />
+    <Compile Include="Contexts\MenteeContext.cs" />
+    <Compile Include="Contexts\MentorContext.cs" />
     <Compile Include="Migrations\Course\20190707122143_initial.cs" />
     <Compile Include="Migrations\Course\20190707122143_initial.designer.cs">
       <DependentUpon>20190707122143_initial.cs</DependentUpon>
