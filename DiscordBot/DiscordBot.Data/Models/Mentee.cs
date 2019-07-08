@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.Data.Models
 {
-    public class Mentee : IUser
+    public class Mentee : BaseEntity, IUser
     {
 
         public Mentee()
         {
             Languages = new Dictionary<Constants.Languages, Constants.Levels>();
         }
-
-        public int Id { get; set; }
         public Dictionary<Constants.Languages, Constants.Levels> Languages { get; set; }
 
         public override string ToString()

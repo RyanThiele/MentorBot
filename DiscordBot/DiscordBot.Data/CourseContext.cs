@@ -14,11 +14,6 @@ namespace DiscordBot.Data
 {
     public class CourseContext : DbContext
     {
-        // Couldn't find a better way and idgaf to be honest XD
-        [Obsolete]
-        public static readonly LoggerFactory MyLoggerFactory
-            = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
-        
         public DbSet<Course> Courses { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,11 +28,18 @@ namespace DiscordBot.Data
             modelBuilder.Entity<Course>(builder =>
             {
                 builder.Property(course => course.Id).IsRequired();
+                builder.Property(course => course.Name).IsRequired();
+
+                builder.Property(course => course.Teacher)
+                    .HasConversion(
+                    value => JsonConvert.SerializeObject(value, Formatting.None),
+                    serializedValue => JsonConvert.DeserializeObject<Mentor>(serializedValue))
+                    .IsRequired();
 
                 builder.Property(course => course.Students)
                     .HasConversion(
                         value => JsonConvert.SerializeObject(value, Formatting.None),
-                        serializedValue => JsonConvert.DeserializeObject<Dictionary<int, Mentee>>(serializedValue)
+                        serializedValue => JsonConvert.DeserializeObject<List<ulong>>(serializedValue)
                     )
                     .IsRequired();
 
