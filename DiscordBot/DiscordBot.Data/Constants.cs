@@ -6,7 +6,6 @@ namespace DiscordBot.Data
 {
     public static class Constants
     {
-        public const string TOKEN = " " ;
 
         public enum Languages
         {

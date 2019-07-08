@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
-using DiscordBot.Data;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DiscordBot.Domain
+namespace DiscordBot
 {
     public class Client
     {
@@ -34,7 +33,7 @@ namespace DiscordBot.Domain
 
             SocketClient.Log += Log;
             await RegisterCommandsAsync();
-            await SocketClient.LoginAsync(Discord.TokenType.Bot, Constants.TOKEN);
+            await SocketClient.LoginAsync(Discord.TokenType.Bot, "my token" );
             await SocketClient.StartAsync();
 
             while (true) Console.ReadKey();
