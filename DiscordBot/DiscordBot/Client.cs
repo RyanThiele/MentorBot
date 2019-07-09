@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Discord;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DiscordBot.Domain
+namespace DiscordBot
 {
     public class Client
     {
@@ -36,7 +36,7 @@ namespace DiscordBot.Domain
             await SocketClient.LoginAsync(Discord.TokenType.Bot, "" );
             await SocketClient.StartAsync();
 
-            while (true) Console.ReadKey();
+            await Task.Delay(-1);
         }
         
         public async Task RegisterCommandsAsync()

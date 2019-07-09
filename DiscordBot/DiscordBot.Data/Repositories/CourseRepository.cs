@@ -17,24 +17,24 @@ namespace DiscordBot.Data.Repositories
             _context = new CourseContext();
         }
 
-        public IEnumerable<Course> GetCourses()
+        public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
-            return _context.Courses.ToList();
+            return await _context.Courses.ToListAsync();
         }
 
-        public Course GetCourse(ulong id)
+        public async Task<Course> GetCourseAsync(ulong id)
         {
-            return _context.Courses.Find(id);
+            return await _context.Courses.FindAsync(id);
         }
 
-        public void InsertCourse(Course course)
+        public async Task InsertCourseAsync(Course course)
         {
-            _context.Courses.Add(course);
+            await _context.Courses.AddAsync(course);
         }
 
-        public void DeleteCourse(ulong id)
+        public async Task DeleteCourseAsync(ulong id)
         {
-            var course = _context.Courses.Find(id);
+            var course = await _context.Courses.FindAsync(id);
             _context.Courses.Remove(course);
         }
 
@@ -43,9 +43,9 @@ namespace DiscordBot.Data.Repositories
             _context.Entry(course).State = EntityState.Modified;
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         private bool _disposed = false;

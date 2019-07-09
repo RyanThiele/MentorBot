@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord.WebSocket;
-using DiscordBot.Domain;
 
 namespace DiscordBot
 {

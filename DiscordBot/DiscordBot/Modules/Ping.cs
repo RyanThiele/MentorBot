@@ -8,7 +8,7 @@ using Discord.Commands;
 using DiscordBot.Data.Models;
 using DiscordBot.Data.Repositories;
 
-namespace DiscordBot.Domain.Modules
+namespace DiscordBot.Modules
 {
     public class Ping : ModuleBase<SocketCommandContext>
     {
@@ -28,19 +28,51 @@ namespace DiscordBot.Domain.Modules
         public async Task Subscribe([Remainder] string type)
         {
             Task task;
+            if (type.ToLower() == "mentor")
+            {
+                Mentor mentor = _mentorRepo.GetMentor(Context.User.Id);
+                if (mentor != null)
+                {
+                    await ReplyAsync($"You are already subscribed as {type}");
+                    return;
+                }
+
+                mentor = new Mentor(Context.User.Id);
+                _mentorRepo.InsertMentor(mentor);
+            }
+            else if (type.ToLower() == "mentee")
+            {
+                Mentee mentee = _menteeRepo.GetMentee(Context.User.Id);
+
+                if (mentee != null)
+                {
+                    await ReplyAsync($"You are already subscribed as {type}");
+                    return;
+                }
+
+                mentee = new Mentee(Context.User.Id);
+                _menteeRepo.InsertMentee(mentee);
+            }
+
+            await Context.User.SendMessageAsync($"You have been successfully subscribed as {type.ToLower()}");
+        }
+
+        [Command("Unsubscribe")]
+        public async Task Unsubscribe([Remainder] string type)
+        {
+            Task task;
             switch (type.ToLower())
             {
                 case "mentor":
                     Mentor mentor = _mentorRepo.GetMentor(Context.User.Id);
-                    if (mentor != null)
+                    if (mentor is null)
                     {
-                        await ReplyAsync($"You are already subscribed as {type}");
+                        await ReplyAsync($"You are not subscribed as {type}");
                         return;
                     }
 
                     mentor = new Mentor(Context.User.Id);
                     _mentorRepo.InsertMentor(mentor);
-                    _mentorRepo.Save();
                     break;
 
                 case "mentee":
@@ -53,11 +85,11 @@ namespace DiscordBot.Domain.Modules
 
                     mentee = new Mentee(Context.User.Id);
                     _menteeRepo.InsertMentee(mentee);
-                    _menteeRepo.Save();
                     break;
             }
             await Context.User.SendMessageAsync($"You have been successfully subscribed as {type.ToLower()}");
         }
+
         /*
         private static bool IsMentor(ulong id)
         {

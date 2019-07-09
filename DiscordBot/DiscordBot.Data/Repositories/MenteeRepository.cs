@@ -17,35 +17,36 @@ namespace DiscordBot.Data.Repositories
             _context = new MenteeContext();
         }
 
-        public IEnumerable<Mentee> GetMentees()
+        public async Task<IEnumerable<Mentee>> GetMenteesAsync()
         {
-            return _context.Mentees.ToList();
+            return await _context.Mentees.ToListAsync();
         }
 
-        public Mentee GetMentee(ulong id)
+        public async Task<Mentee> GetMenteeAsync(ulong id)
         {
-            return _context.Mentees.Find(id);
+            return await _context.Mentees.FindAsync(id);
         }
 
-        public void InsertMentee(Mentee mentee)
+        public async Task InsertMenteeAsync(Mentee mentee)
         {
-            _context.Mentees.Add(mentee);
+            await _context.Mentees.AddAsync(mentee);
         }
 
-        public void DeleteMentee(ulong id)
+        public async Task DeleteMenteeAsync(ulong id)
         {
-            var mentee = _context.Mentees.Find(id);
+            var mentee = await _context.Mentees.FindAsync(id);
+            if (mentee is null) return;
             _context.Mentees.Remove(mentee);
         }
 
         public void UpdateMentee(Mentee mentee)
-        {
+        { 
             _context.Entry(mentee).State = EntityState.Modified;
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         private bool _disposed = false;

@@ -17,24 +17,25 @@ namespace DiscordBot.Data.Repositories
             _context = new MentorContext();
         }
 
-        public IEnumerable<Mentor> GetMentors()
+        public async Task<IEnumerable<Mentor>> GetMentorsAsync()
         {
-            return _context.Mentors.ToList();
+            return await _context.Mentors.ToListAsync();
         }
 
-        public Mentor GetMentor(ulong id)
+        public async Task<Mentor> GetMentorAsync(ulong id)
         {
-            return _context.Mentors.Find(id);
+            return await _context.Mentors.FindAsync(id);
         }
 
-        public void InsertMentor(Mentor mentor)
+        public async Task InsertMentorAsync(Mentor mentor)
         {
-            _context.Mentors.Add(mentor);
+            await _context.Mentors.AddAsync(mentor);
         }
 
-        public void DeleteMentor(ulong id)
+        public async Task DeleteMentorAsync(ulong id)
         {
-            var mentor = _context.Mentors.Find(id);
+            var mentor = await _context.Mentors.FindAsync(id);
+            if (mentor is null) return;
             _context.Mentors.Remove(mentor);
         }
 
@@ -43,9 +44,9 @@ namespace DiscordBot.Data.Repositories
             _context.Entry(mentor).State = EntityState.Modified;
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         private bool _disposed = false;

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DiscordBot.Data.Models;
 
 namespace DiscordBot.Data.Repositories
 {
     public interface IMenteeRepository : IDisposable
     {
-        IEnumerable<Mentee> GetMentees();
-        Mentee GetMentee(ulong id);
-        void InsertMentee(Mentee mentee);
-        void DeleteMentee(ulong id);
+        Task<IEnumerable<Mentee>> GetMenteesAsync();
+        Task<Mentee> GetMenteeAsync(ulong id);
+        Task InsertMenteeAsync(Mentee mentee);
+        Task DeleteMenteeAsync(ulong id);
         void UpdateMentee(Mentee mentee);
-        void Save();
+        Task SaveAsync();
     }
 }
