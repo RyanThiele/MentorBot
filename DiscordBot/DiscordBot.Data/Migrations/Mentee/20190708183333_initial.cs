@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DiscordBot.Data.Migrations.Mentee
 {
@@ -11,9 +10,8 @@ namespace DiscordBot.Data.Migrations.Mentee
                 name: "Mentees",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Languages = table.Column<string>(maxLength: 4000, nullable: false)
+                    Id = table.Column<decimal>(nullable: false),
+                    Languages = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

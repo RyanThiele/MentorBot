@@ -22,7 +22,7 @@ namespace DiscordBot.Data.Repositories
             return _context.Mentors.ToList();
         }
 
-        public Mentor GetMentor(int id)
+        public Mentor GetMentor(ulong id)
         {
             return _context.Mentors.Find(id);
         }
@@ -32,7 +32,7 @@ namespace DiscordBot.Data.Repositories
             _context.Mentors.Add(mentor);
         }
 
-        public void DeleteMentor(int id)
+        public void DeleteMentor(ulong id)
         {
             var mentor = _context.Mentors.Find(id);
             _context.Mentors.Remove(mentor);

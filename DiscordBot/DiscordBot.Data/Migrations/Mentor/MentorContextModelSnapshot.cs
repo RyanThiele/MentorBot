@@ -18,11 +18,11 @@ namespace DiscordBot.Data.Migrations.Mentor
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DiscordBot.Domain.Models.Mentor", b =>
+            modelBuilder.Entity("DiscordBot.Data.Models.Mentor", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<decimal>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
 
                     b.Property<string>("Languages")
                         .IsRequired();

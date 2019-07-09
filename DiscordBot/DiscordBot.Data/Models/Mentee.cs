@@ -10,7 +10,7 @@ namespace DiscordBot.Data.Models
     public class Mentee : BaseEntity, IUser
     {
 
-        public Mentee()
+        public Mentee(ulong id) : base(id)
         {
             Languages = new Dictionary<Constants.Languages, Constants.Levels>();
         }

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DiscordBot.Data.Migrations.Course
+namespace DiscordBot.Data.Migrations.Mentee
 {
-    [DbContext(typeof(CourseContext))]
-    [Migration("20190707133356_relationships")]
-    partial class relationships
+    [DbContext(typeof(MenteeContext))]
+    [Migration("20190708183333_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,17 +20,18 @@ namespace DiscordBot.Data.Migrations.Course
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DiscordBot.Domain.Models.Course", b =>
+            modelBuilder.Entity("DiscordBot.Data.Models.Mentee", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<decimal>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
 
-                    b.Property<string>("name");
+                    b.Property<string>("Languages")
+                        .IsRequired();
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Mentees");
                 });
 #pragma warning restore 612, 618
         }

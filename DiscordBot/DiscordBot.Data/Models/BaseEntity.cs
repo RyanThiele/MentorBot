@@ -11,5 +11,10 @@ namespace DiscordBot.Data.Models
     {
         [Key]
         public ulong Id { get; set; }
+
+        public BaseEntity(ulong id)
+        {
+            Id = id;
+        }
     }
 }

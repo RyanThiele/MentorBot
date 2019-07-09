@@ -11,7 +11,7 @@ namespace DiscordBot.Data.Models
 {
     public class Mentor : BaseEntity, IUser
     {
-        public Mentor()
+        public Mentor(ulong id) : base(id)
         {
             Languages = new Dictionary<Constants.Languages, Constants.Levels>();    
         }

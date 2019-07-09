@@ -202,6 +202,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
     <Compile Include="Modules\Ping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

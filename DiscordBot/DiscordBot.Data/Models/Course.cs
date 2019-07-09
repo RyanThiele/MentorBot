@@ -8,9 +8,11 @@ namespace DiscordBot.Data.Models
     public class Course : BaseEntity
     {
 
+        public Course(ulong id) : base(id){ }
+
         public string Name { get; set; }
 
-        public Mentor Teacher { get; set; }
+        public ulong TeacherId { get; set; }
 
         public IList<ulong> Students { get; set; }
 

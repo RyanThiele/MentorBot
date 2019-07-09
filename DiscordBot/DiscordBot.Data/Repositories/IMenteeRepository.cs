@@ -7,9 +7,9 @@ namespace DiscordBot.Data.Repositories
     public interface IMenteeRepository : IDisposable
     {
         IEnumerable<Mentee> GetMentees();
-        Mentee GetMentee(int id);
+        Mentee GetMentee(ulong id);
         void InsertMentee(Mentee mentee);
-        void DeleteMentee(int id);
+        void DeleteMentee(ulong id);
         void UpdateMentee(Mentee mentee);
         void Save();
     }

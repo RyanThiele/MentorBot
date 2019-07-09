@@ -10,7 +10,7 @@ namespace DiscordBot.Data.Repositories
 {
     public class MenteeRepository : IMenteeRepository
     {
-        private MenteeContext _context;
+        private readonly MenteeContext _context;
 
         public MenteeRepository()
         {
@@ -22,7 +22,7 @@ namespace DiscordBot.Data.Repositories
             return _context.Mentees.ToList();
         }
 
-        public Mentee GetMentee(int id)
+        public Mentee GetMentee(ulong id)
         {
             return _context.Mentees.Find(id);
         }
@@ -32,7 +32,7 @@ namespace DiscordBot.Data.Repositories
             _context.Mentees.Add(mentee);
         }
 
-        public void DeleteMentee(int id)
+        public void DeleteMentee(ulong id)
         {
             var mentee = _context.Mentees.Find(id);
             _context.Mentees.Remove(mentee);

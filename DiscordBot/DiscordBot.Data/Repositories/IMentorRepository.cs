@@ -7,9 +7,9 @@ namespace DiscordBot.Data.Repositories
     public interface IMentorRepository : IDisposable
     {
         IEnumerable<Mentor> GetMentors();
-        Mentor GetMentor(int id);
+        Mentor GetMentor(ulong id);
         void InsertMentor(Mentor mentor);
-        void DeleteMentor(int id);
+        void DeleteMentor(ulong id);
         void UpdateMentor(Mentor mentor);
         void Save();
     }

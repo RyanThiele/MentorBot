@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using DiscordBot.Data.Models;
 using DiscordBot.Data.Repositories;
 
 namespace DiscordBot.Domain.Modules
@@ -12,13 +13,17 @@ namespace DiscordBot.Domain.Modules
     public class Ping : ModuleBase<SocketCommandContext>
     {
 
-        private IMenteeRepository menteeRepository = new MenteeRepository();
+        private readonly IMenteeRepository _menteeRepo = new MenteeRepository();
+        private readonly IMentorRepository _mentorRepo = new MentorRepository();
+        private readonly ICourseRepository _courseRepo = new CourseRepository();
+
         [Command("test")]
         public async Task Test([Remainder]int amount=0)
         {
             await ReplyAsync($"Test is successful: {amount}");
         }
-        /*
+
+
         [Command("Subscribe")]
         public async Task Subscribe([Remainder] string type)
         {
@@ -26,31 +31,34 @@ namespace DiscordBot.Domain.Modules
             switch (type.ToLower())
             {
                 case "mentor":
-                    if (IsMentor(Context.User.Id))
+                    Mentor mentor = _mentorRepo.GetMentor(Context.User.Id);
+                    if (mentor != null)
                     {
                         await ReplyAsync($"You are already subscribed as {type}");
                         return;
                     }
 
-                    var mentor = new Mentor(Context.User.Id);
-                    Program.Client.Mentors.Add(Context.User.Id, mentor);
-                    Program.Client.Database.SaveMentor(mentor);
+                    mentor = new Mentor(Context.User.Id);
+                    _mentorRepo.InsertMentor(mentor);
+                    _mentorRepo.Save();
                     break;
+
                 case "mentee":
-                    if (IsMentee(Context.User.Id))
+                    Mentee mentee = _menteeRepo.GetMentee(Context.User.Id);
+                    if (mentee != null)
                     {
                         await ReplyAsync($"You are already subscribed as {type}");
                         return;
                     }
 
-                    var mentee = new User(Context.User.Id);
-                    Program.Client.Mentees.Add(Context.User.Id, mentee);
-                    Program.Client.Database.SaveMentee(mentee);
+                    mentee = new Mentee(Context.User.Id);
+                    _menteeRepo.InsertMentee(mentee);
+                    _menteeRepo.Save();
                     break;
             }
-            await Context.User.SendMessageAsync($"You have been successfully subscribed as {type}");
+            await Context.User.SendMessageAsync($"You have been successfully subscribed as {type.ToLower()}");
         }
-        
+        /*
         private static bool IsMentor(ulong id)
         {
             return Program.Client.Mentors.ContainsKey(id);
