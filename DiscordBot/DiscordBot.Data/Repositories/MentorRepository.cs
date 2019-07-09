@@ -41,7 +41,7 @@ namespace DiscordBot.Data.Repositories
 
         public void UpdateMentor(Mentor mentor)
         {
-            _context.Entry(mentor).State = EntityState.Modified;
+            _context.Mentors.Update(mentor);
         }
 
         public async Task SaveAsync()

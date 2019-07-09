@@ -40,7 +40,7 @@ namespace DiscordBot.Data.Repositories
 
         public void UpdateCourse(Course course)
         {
-            _context.Entry(course).State = EntityState.Modified;
+            _context.Courses.Update(course);
         }
 
         public async Task SaveAsync()

@@ -40,8 +40,8 @@ namespace DiscordBot.Data.Repositories
         }
 
         public void UpdateMentee(Mentee mentee)
-        { 
-            _context.Entry(mentee).State = EntityState.Modified;
+        {
+            _context.Mentees.Update(mentee);
         }
 
         public async Task SaveAsync()

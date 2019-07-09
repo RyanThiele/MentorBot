@@ -33,7 +33,7 @@ namespace DiscordBot
 
             SocketClient.Log += Log;
             await RegisterCommandsAsync();
-            await SocketClient.LoginAsync(Discord.TokenType.Bot, "" );
+            await SocketClient.LoginAsync(Discord.TokenType.Bot, "NTk4MTAwOTM4OTM4Mzg0NDE0.XSSrYQ.70GYHQe5_pF3TF62djxoO15Ml2k" );
             await SocketClient.StartAsync();
 
             await Task.Delay(-1);
@@ -48,11 +48,10 @@ namespace DiscordBot
         private async Task HandleCommandAsync(SocketMessage arg)
         {
             var msg = arg as SocketUserMessage;
-
-            if (msg is null || msg.Author.IsBot)
-                return;
-
             int argPos = 0;
+
+            if (msg is null || msg.Author.IsBot || !msg.HasCharPrefix('$', ref argPos))
+                return;
 
             var context = new SocketCommandContext(SocketClient, msg);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
@@ -61,7 +60,7 @@ namespace DiscordBot
                 return;
             
             var options = new RequestOptions { RetryMode = RetryMode.AlwaysRetry };
-            await msg.DeleteAsync(options);
+            //await msg.DeleteAsync(options);
             
         }
 

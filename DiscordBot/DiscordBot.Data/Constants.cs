@@ -23,5 +23,11 @@ namespace DiscordBot.Data
             Intermediate,
             Beginner
         }
+
+        public enum UserTypes
+        {
+            Mentor,
+            Mentee
+        }
     }
 }
