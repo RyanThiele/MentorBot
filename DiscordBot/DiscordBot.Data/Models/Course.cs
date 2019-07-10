@@ -5,10 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiscordBot.Data.Models
 {
-    public class Course : BaseEntity
+    public class Course
     {
+        public Course(Guid id = new Guid())
+        {
+            Id = id;
+        }
 
-        public Course(ulong id) : base(id){ }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
@@ -17,6 +21,8 @@ namespace DiscordBot.Data.Models
         public IList<ulong> Students { get; set; }
 
         public Tuple<Constants.Languages, Constants.Levels> CourseDetails { get; set; }
+
+        public int MaxMentees { get; set; }
 
         public void Enroll(Mentee mentee)
         {

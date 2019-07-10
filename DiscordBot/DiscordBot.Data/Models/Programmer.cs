@@ -7,10 +7,14 @@ using Newtonsoft.Json;
 
 namespace DiscordBot.Data.Models
 {
-    public class Programmer : BaseEntity
+    public class Programmer
     {
-        public Programmer(ulong id) : base(id) { }
 
+        public Programmer(ulong id)
+        {
+            Id = id;
+        }
+        public ulong Id { get; set; }
         public string LanguagesToString()
         {
             StringBuilder sb = new StringBuilder();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
@@ -82,8 +83,37 @@ namespace DiscordBot.Modules
             await ReplyAsync($"You have been successfully unsubscribed from the {type.ToLower()} role");
         }
 
+        [Command("SendMsg")]
+        [Alias("Send", "SendMessage")]
+        public async Task SendMsg([Remainder] string arg)
+        {
+            string[] arguments = arg.Split(' ');
+            if (arguments.Length < 2)
+            {
+                await ReplyAsync("No messsage detected. Message could not be sent.");
+                return;
+            }
+
+            arguments[arguments.Length - 1] +=
+                $"{Environment.NewLine}Reply usage: ``$SendMsg {Context.User.Id} [Message]``";
+
+            ulong userId = 0;
+
+            ulong.TryParse(arguments[0], out userId);
+            if (userId == 0)
+            {
+                await ReplyAsync("This is not a valid userId!");
+            }
+
+            arguments[0] = $"{Context.User.Id} says: ";
+
+            IUser user = Context.Client.GetUser(userId);
+            var channel = await user.GetOrCreateDMChannelAsync();
+            await channel.SendMessageAsync(string.Join(' ', arguments));
+        }
 
         [Command("Userinfo")]
+        [Alias("User", "Info")]
         public async Task UserInfo([Remainder] ulong userId)
         {
             var mentee = await MenteeRepo.GetMenteeAsync(userId);
@@ -130,6 +160,12 @@ namespace DiscordBot.Modules
 
             embed.WithDescription(sb.ToString());
             return embed.Build();
+        }
+
+        [Command("help")]
+        public async Task GetHelp()
+        {
+            await ReplyAsync("$create course Language LevelOfExperienceRequired MaxStudents Description");
         }
     }
 }

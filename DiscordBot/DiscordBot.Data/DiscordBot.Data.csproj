@@ -321,18 +321,37 @@
     <Compile Include="Migrations\Course\20190708183301_Relationships.designer.cs">
       <DependentUpon>20190708183301_Relationships.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Course\20190710112621_reeee.cs" />
+    <Compile Include="Migrations\Course\20190710112621_reeee.designer.cs">
+      <DependentUpon>20190710112621_reeee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Course\20190710140533_Notrequiredfield.cs" />
+    <Compile Include="Migrations\Course\20190710140533_Notrequiredfield.designer.cs">
+      <DependentUpon>20190710140533_Notrequiredfield.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Course\20190710141743_migrr.cs" />
+    <Compile Include="Migrations\Course\20190710141743_migrr.designer.cs">
+      <DependentUpon>20190710141743_migrr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Course\CourseContextModelSnapshot.cs" />
     <Compile Include="Migrations\Mentee\20190708183333_initial.cs" />
     <Compile Include="Migrations\Mentee\20190708183333_initial.designer.cs">
       <DependentUpon>20190708183333_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Mentee\20190710140821_migr.cs" />
+    <Compile Include="Migrations\Mentee\20190710140821_migr.designer.cs">
+      <DependentUpon>20190710140821_migr.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Mentee\MenteeContextModelSnapshot.cs" />
     <Compile Include="Migrations\Mentor\20190708183347_initial.cs" />
     <Compile Include="Migrations\Mentor\20190708183347_initial.designer.cs">
       <DependentUpon>20190708183347_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Mentor\20190710140810_migr.cs" />
+    <Compile Include="Migrations\Mentor\20190710140810_migr.designer.cs">
+      <DependentUpon>20190710140810_migr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Mentor\MentorContextModelSnapshot.cs" />
-    <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Mentee.cs" />
     <Compile Include="Models\Mentor.cs" />

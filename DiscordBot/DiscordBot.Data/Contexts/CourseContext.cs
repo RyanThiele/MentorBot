@@ -27,15 +27,14 @@ namespace DiscordBot.Data
 
             modelBuilder.Entity<Course>(builder =>
             {
-                builder.Property(course => course.Id).IsRequired();
+                builder.Property(course => course.Id).HasConversion(value => value.ToString(), value => Guid.Parse(value)).IsRequired();
                 builder.Property(course => course.Name).IsRequired();
-                
+
                 builder.Property(course => course.Students)
                     .HasConversion(
                         value => JsonConvert.SerializeObject(value, Formatting.None),
                         serializedValue => JsonConvert.DeserializeObject<List<ulong>>(serializedValue)
-                    )
-                    .IsRequired();
+                    );
 
                 builder.Property(course => course.CourseDetails)
                     .HasConversion(

@@ -2,14 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using DiscordBot.Data;
+using DiscordBot.Data.Models;
 
 namespace DiscordBot.Modules
 {
     [Group("Add")]
+    [Alias("Create")]
     public class AddCommands : CommandsBase
     {
         [Command("test")]
@@ -91,6 +94,48 @@ namespace DiscordBot.Modules
             }
 
             return true;
+        }
+
+        [Command("Course")]
+        public async Task AddCourse([Remainder] string arg)
+        {
+            string[] arguments = arg.Split(' ');
+
+            if (arguments.Length < 4)
+            {
+                await ReplyAsync("Invalid argument count (at least 4)! Usage: " +
+                                 "``$create course [Language] [LevelOfExperienceRequired] [MaxStudents] [Description]``");
+                return;
+            }
+
+
+            Constants.Languages language;
+            Constants.Levels level;
+            int maxStudents;
+            try
+            {
+                language = (Constants.Languages) Enum.Parse(typeof(Constants.Languages), arguments[0], true);
+                level = (Constants.Levels) Enum.Parse(typeof(Constants.Levels), arguments[1], true);
+                maxStudents = Int32.Parse(arguments[2]);
+            }
+            catch
+            {
+                await ReplyAsync("Invalid language or level of experience! Usage: " +
+                                 "``$create course [Language] [LevelOfExperienceRequired] [MaxStudents] [Description]``");
+                return;
+            }
+
+            string description = string.Join(' ', arguments.Skip(3));
+            var course = new Course()
+            {
+                CourseDetails = new Tuple<Constants.Languages, Constants.Levels>(language, level),
+                Name = description,
+                MaxMentees = maxStudents
+            };
+
+            await CourseRepo.InsertCourseAsync(course);
+            await ReplyAsync($"You have successfully added the course with ID {course.Id}");
+
         }
     }
 }
