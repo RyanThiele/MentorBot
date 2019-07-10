@@ -44,8 +44,6 @@ namespace DiscordBot.Data.Migrations
 
                     b.Property<Guid?>("CourseId");
 
-                    b.Property<int>("UserType");
-
                     b.HasKey("UserId");
 
                     b.HasIndex("CourseId");
@@ -59,12 +57,14 @@ namespace DiscordBot.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Language");
+                    b.Property<int>("CodeLanguage");
 
-                    b.Property<int>("Level");
+                    b.Property<int>("CompetenceLevel");
 
                     b.Property<decimal>("UserId")
                         .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+
+                    b.Property<int>("UserLanguageRole");
 
                     b.HasKey("UserLanguageId");
 

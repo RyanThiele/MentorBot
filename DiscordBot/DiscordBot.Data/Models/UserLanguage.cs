@@ -4,10 +4,11 @@
     {
         public int UserLanguageId { get; set; }
         public ulong UserId { get; set; }
-        public Languages Language { get; set; }
-        public Levels Level { get; set; }
+        public ProgrammingLanguages ProgrammingLanguages { get; set; }
+        public UserLanguageRoles UserLanguageRole { get; set; }
+        public CompetenceLevels CompetenceLevel { get; set; }
 
-        // Navigaiton
+        // Navigation
         public User User { get; set; }
     }
 }

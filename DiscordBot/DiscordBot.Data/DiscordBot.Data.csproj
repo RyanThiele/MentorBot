@@ -315,9 +315,9 @@
   <ItemGroup>
     <Compile Include="Enums.cs" />
     <Compile Include="Contexts\MentorBotDbContext.cs" />
-    <Compile Include="Migrations\20190710204016_Initial.cs" />
-    <Compile Include="Migrations\20190710204016_Initial.designer.cs">
-      <DependentUpon>20190710204016_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\20190710214444_Initial.cs" />
+    <Compile Include="Migrations\20190710214444_Initial.designer.cs">
+      <DependentUpon>20190710214444_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MentorBotDbContextModelSnapshot.cs" />
     <Compile Include="Models\Course.cs" />

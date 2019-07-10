@@ -1,6 +1,6 @@
 ﻿namespace DiscordBot.Data
 {
-    public enum Languages
+    public enum ProgrammingLanguages
     {
         Python,
         JavaScript,
@@ -10,14 +10,14 @@
         C
     }
 
-    public enum Levels
+    public enum CompetenceLevels
     {
         Experienced,
         Intermediate,
         Beginner
     }
 
-    public enum UserTypes
+    public enum UserLanguageRoles
     {
         Mentor,
         Mentee

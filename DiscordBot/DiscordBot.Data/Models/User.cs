@@ -10,7 +10,6 @@ namespace DiscordBot.Data.Models
         }
 
         public ulong UserId { get; set; }
-        public UserTypes UserType { get; set; }
         public virtual IList<UserLanguage> UserLanguages { get; set; }
 
         public override string ToString()

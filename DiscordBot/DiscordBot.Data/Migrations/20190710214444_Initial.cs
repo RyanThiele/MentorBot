@@ -27,7 +27,6 @@ namespace DiscordBot.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<decimal>(nullable: false),
-                    UserType = table.Column<int>(nullable: false),
                     CourseId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -48,8 +47,9 @@ namespace DiscordBot.Data.Migrations
                     UserLanguageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<decimal>(nullable: false),
-                    Language = table.Column<int>(nullable: false),
-                    Level = table.Column<int>(nullable: false)
+                    CodeLanguage = table.Column<int>(nullable: false),
+                    UserLanguageRole = table.Column<int>(nullable: false),
+                    CompetenceLevel = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
