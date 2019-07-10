@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using static DiscordBot.Data.Constants;
 
 namespace DiscordBot.Data.Repositories
 {
-    public class MentorRepository : IDisposable, IMentorRepository
+    public class MentorRepository : RepositoryBase<MentorContext, Mentor>, IMentorRepository
     {
         private readonly MentorContext _context;
 
@@ -18,10 +19,7 @@ namespace DiscordBot.Data.Repositories
             _context = new MentorContext();
         }
 
-        public int GetCount()
-        {
-            return _context.Mentors.Count();
-        }
+        public int GetCount() => Count();
 
         /// <summary>
         /// Returns mentors from begin to end index
@@ -29,65 +27,37 @@ namespace DiscordBot.Data.Repositories
         /// <param name="begin"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public List<Programmer> GetMentors(int begin, int end)
-        {
-            return  _context.Mentors.Skip(begin).Take(end).ToList<Programmer>();
-        }
+        public async Task<IEnumerable<Mentor>> GetMentorsSliceAsync(int begin, int end) => await Slice(begin, end).ToListAsync();
+        
+        public async Task<IEnumerable<Mentor>> GetMentorsAsync() => await GetAll().ToListAsync();
 
-        public async Task<IEnumerable<Mentor>> GetMentorsAsync()
-        {
-            return await _context.Mentors.ToListAsync();
-        }
+        public async Task<Mentor> GetMentorAsync(ulong id) =>
+            await Find(m => m.Id == id).SingleOrDefaultAsync();
 
-        public async Task<Mentor> GetMentorAsync(ulong id)
+        public async Task InsertMentorAsync(Mentor Mentor)
         {
-            return await _context.Mentors.FindAsync(id);
-        }
-
-        public async Task InsertMentorAsync(Mentor mentor)
-        {
-            await _context.Mentors.AddAsync(mentor);
+            Insert(Mentor);
             await SaveAsync();
         }
 
         public async Task DeleteMentorAsync(ulong id)
         {
-            var mentor = await _context.Mentors.FindAsync(id);
-            if (mentor is null) return;
-            _context.Mentors.Remove(mentor);
+            var Mentor = await GetMentorAsync(id);
+            Delete(Mentor);
             await SaveAsync();
         }
 
-        public async Task UpdateMentorAsync(Mentor mentor)
+        public async Task UpdateMentorAsync(Mentor Mentor)
         {
-            _context.Mentors.Update(mentor);
+            Update(Mentor);
             await SaveAsync();
         }
 
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
+        public async Task<IEnumerable<Programmer>> SearchLanguage(Languages language) =>
+            await Find(m => m.Languages.ContainsKey(language)).ToListAsync();
 
-        private bool _disposed = false;
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this._disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public async Task<IEnumerable<Programmer>> SearchLevel(Levels level) =>
+            await Find(m => m.Languages.ContainsValue(level)).ToListAsync();
 
     }
 }
