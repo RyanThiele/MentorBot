@@ -9,18 +9,12 @@ using System.Xml.Linq;
 
 namespace DiscordBot.Data.Models
 {
-    public class Mentor : BaseEntity, IUser
+    public class Mentor : Programmer
     {
         public Mentor(ulong id) : base(id)
         {
             Languages = new Dictionary<Constants.Languages, Constants.Levels>();    
         }
-
-        public Dictionary<Constants.Languages, Constants.Levels> Languages { get; set; }
-
-        public override string ToString()
-        {
-            return "# User: " + JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
+        
     }
 }

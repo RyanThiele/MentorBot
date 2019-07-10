@@ -21,7 +21,7 @@ namespace DiscordBot.Modules
         [Command("Language")]
         public async Task AddLanguage([Remainder] string arg)
         {
-            if (arg.Split(' ').Length < MIN_ARG_COUNT_ADVANCED_CMDS) return;
+            if (arg.Split(' ').Length < 3) return;
 
             string type = arg.Split(' ')[0];
             string lang = arg.Split(' ')[1];
@@ -54,27 +54,39 @@ namespace DiscordBot.Modules
             if (type == Constants.UserTypes.Mentor)
             {
                 var mentor = await MentorRepo.GetMentorAsync(userId);
-                if (mentor.Languages.ContainsKey(lang))
+
+                if (mentor == null)
+                {
+                    await ReplyAsync("You are not a mentor yet. Type ``$Subscribe mentor`` to subscribe from the mentor role.");
+                    return false;
+                }
+                if(mentor.Languages.ContainsKey(lang))
                 {
                     await ReplyAsync("You have already added this language to your arsenal. " +
                                      "Please use the $set command to change its experience level or $del to delete it.");
                     return false;
                 }
+
                 mentor.Languages.Add(lang, xp);
-                MentorRepo.UpdateMentor(mentor);
-                await MentorRepo.SaveAsync();
+                await MentorRepo.UpdateMentorAsync(mentor);
             }
             else
             {
                 var mentee = await MenteeRepo.GetMenteeAsync(userId);
-                if (mentee.Languages.ContainsKey(lang))
+
+                if (mentee == null)
+                {
+                    await ReplyAsync("You are not a mentee yet. Type ``$Subscribe mentee`` to subscribe from the mentee role.");
+                }
+                else if (mentee.Languages.ContainsKey(lang))
                 {
                     await ReplyAsync("You have already added this language to your arsenal. " +
                                      "Please use the $set command to change its experience level or $del to delete it.");
                     return false;
                 }
+
                 mentee.Languages.Add(lang, xp);
-                MenteeRepo.UpdateMentee(mentee);
+                await MenteeRepo.UpdateMenteeAsync(mentee);
                 await MenteeRepo.SaveAsync();
             }
 

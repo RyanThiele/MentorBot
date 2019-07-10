@@ -33,7 +33,7 @@ namespace DiscordBot
 
             SocketClient.Log += Log;
             await RegisterCommandsAsync();
-            await SocketClient.LoginAsync(Discord.TokenType.Bot, "******" );
+            await SocketClient.LoginAsync(Discord.TokenType.Bot, "" );
             await SocketClient.StartAsync();
 
             await Task.Delay(-1);

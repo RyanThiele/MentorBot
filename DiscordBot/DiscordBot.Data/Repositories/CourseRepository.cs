@@ -30,17 +30,21 @@ namespace DiscordBot.Data.Repositories
         public async Task InsertCourseAsync(Course course)
         {
             await _context.Courses.AddAsync(course);
+            await SaveAsync();
         }
 
         public async Task DeleteCourseAsync(ulong id)
         {
             var course = await _context.Courses.FindAsync(id);
+            if (course == null) return;
             _context.Courses.Remove(course);
+            await SaveAsync();
         }
 
-        public void UpdateCourse(Course course)
+        public async Task UpdateCourseAsync(Course course)
         {
             _context.Courses.Update(course);
+            await SaveAsync();
         }
 
         public async Task SaveAsync()

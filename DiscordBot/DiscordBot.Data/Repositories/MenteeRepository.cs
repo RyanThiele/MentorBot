@@ -17,6 +17,22 @@ namespace DiscordBot.Data.Repositories
             _context = new MenteeContext();
         }
 
+        public int GetCount()
+        {
+            return _context.Mentees.Count();
+        }
+
+        /// <summary>
+        /// Returns mentees from begin to end index
+        /// </summary>
+        /// <param name="begin"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public List<Programmer> GetMentees(int begin, int end)
+        {
+            return _context.Mentees.Skip(begin).Take(end).ToList<Programmer>();
+        }
+
         public async Task<IEnumerable<Mentee>> GetMenteesAsync()
         {
             return await _context.Mentees.ToListAsync();
@@ -30,6 +46,7 @@ namespace DiscordBot.Data.Repositories
         public async Task InsertMenteeAsync(Mentee mentee)
         {
             await _context.Mentees.AddAsync(mentee);
+            await SaveAsync();
         }
 
         public async Task DeleteMenteeAsync(ulong id)
@@ -37,11 +54,13 @@ namespace DiscordBot.Data.Repositories
             var mentee = await _context.Mentees.FindAsync(id);
             if (mentee is null) return;
             _context.Mentees.Remove(mentee);
+            await SaveAsync();
         }
 
-        public void UpdateMentee(Mentee mentee)
+        public async Task UpdateMenteeAsync(Mentee mentee)
         {
             _context.Mentees.Update(mentee);
+            await SaveAsync();
         }
 
         public async Task SaveAsync()

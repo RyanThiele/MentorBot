@@ -7,18 +7,13 @@ using System.Threading.Tasks;
 
 namespace DiscordBot.Data.Models
 {
-    public class Mentee : BaseEntity, IUser
+    public class Mentee : Programmer
     {
 
         public Mentee(ulong id) : base(id)
         {
             Languages = new Dictionary<Constants.Languages, Constants.Levels>();
         }
-        public Dictionary<Constants.Languages, Constants.Levels> Languages { get; set; }
-
-        public override string ToString()
-        {
-            return "# User: " + JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
+        
     }
 }

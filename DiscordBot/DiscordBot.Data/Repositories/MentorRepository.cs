@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord.Commands;
 using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,22 @@ namespace DiscordBot.Data.Repositories
         public MentorRepository()
         {
             _context = new MentorContext();
+        }
+
+        public int GetCount()
+        {
+            return _context.Mentors.Count();
+        }
+
+        /// <summary>
+        /// Returns mentors from begin to end index
+        /// </summary>
+        /// <param name="begin"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public List<Programmer> GetMentors(int begin, int end)
+        {
+            return  _context.Mentors.Skip(begin).Take(end).ToList<Programmer>();
         }
 
         public async Task<IEnumerable<Mentor>> GetMentorsAsync()
@@ -30,6 +47,7 @@ namespace DiscordBot.Data.Repositories
         public async Task InsertMentorAsync(Mentor mentor)
         {
             await _context.Mentors.AddAsync(mentor);
+            await SaveAsync();
         }
 
         public async Task DeleteMentorAsync(ulong id)
@@ -37,11 +55,13 @@ namespace DiscordBot.Data.Repositories
             var mentor = await _context.Mentors.FindAsync(id);
             if (mentor is null) return;
             _context.Mentors.Remove(mentor);
+            await SaveAsync();
         }
 
-        public void UpdateMentor(Mentor mentor)
+        public async Task UpdateMentorAsync(Mentor mentor)
         {
             _context.Mentors.Update(mentor);
+            await SaveAsync();
         }
 
         public async Task SaveAsync()

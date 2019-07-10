@@ -10,7 +10,7 @@ namespace DiscordBot.Data.Repositories
         Task<Course> GetCourseAsync(ulong id);
         Task InsertCourseAsync(Course mentor);
         Task DeleteCourseAsync(ulong id);
-        void UpdateCourse(Course mentor);
+        Task UpdateCourseAsync(Course mentor);
         Task SaveAsync();
     }
 }

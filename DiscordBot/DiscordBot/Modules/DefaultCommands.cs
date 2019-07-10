@@ -55,8 +55,7 @@ namespace DiscordBot.Modules
                     await MenteeRepo.InsertMenteeAsync(mentee);
                     break;
             }
-            
-            await Context.User.SendMessageAsync($"You have been successfully subscribed from the {type.ToLower()} role");
+            await ReplyAsync($"You have been successfully subscribed from the {type.ToLower()} role.");
         }
 
         [Command("Unsubscribe")]
@@ -80,7 +79,7 @@ namespace DiscordBot.Modules
                     break;
             }
 
-            await Context.User.SendMessageAsync($"You have been successfully unsubscribed from the {type.ToLower()} role");
+            await ReplyAsync($"You have been successfully unsubscribed from the {type.ToLower()} role");
         }
 
 
