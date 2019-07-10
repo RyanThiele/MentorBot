@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\AddCommands.cs" />
+    <Compile Remove="Modules\CommandsBase.cs" />
+    <Compile Remove="Modules\DefaultCommands.cs" />
+    <Compile Remove="Modules\RemoveCommands.cs" />
+    <Compile Remove="Modules\RequestCommands.cs" />
+    <Compile Remove="Modules\SearchCommands.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
@@ -15,6 +24,10 @@
   <ItemGroup>
     <ProjectReference Include="..\DiscordBot.Data\DiscordBot.Data.csproj" />
     <ProjectReference Include="..\DiscordBot.Domain\DiscordBot.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\" />
   </ItemGroup>
 
 </Project>

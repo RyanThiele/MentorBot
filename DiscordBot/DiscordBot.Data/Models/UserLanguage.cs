@@ -1,8 +1,6 @@
-﻿using static DiscordBot.Data.Constants;
-
-namespace DiscordBot.Data.Models
+﻿namespace DiscordBot.Data.Models
 {
-    public class UserLanguages
+    public class UserLanguage
     {
         public int UserLanguageId { get; set; }
         public ulong UserId { get; set; }

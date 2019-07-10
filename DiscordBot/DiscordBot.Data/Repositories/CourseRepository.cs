@@ -10,60 +10,62 @@ namespace DiscordBot.Data.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly CourseContext _context;
+        //private readonly CourseContext _context;
 
         public CourseRepository()
         {
-            _context = new CourseContext();
+           // _context = new CourseContext();
         }
 
-        public async Task<IEnumerable<Course>> GetCoursesAsync()
+        public  Task<IEnumerable<Course>> GetCoursesAsync()
         {
-            return await _context.Courses.ToListAsync();
+            return null;
+            //return await _context.Courses.ToListAsync();
         }
 
-        public async Task<Course> GetCourseAsync(ulong id)
+        public Task<Course> GetCourseAsync(ulong id)
         {
-            return await _context.Courses.FindAsync(id);
+            return null;
+            //return await _context.Courses.FindAsync(id);
         }
 
         public async Task InsertCourseAsync(Course course)
         {
-            await _context.Courses.AddAsync(course);
+            //await _context.Courses.AddAsync(course);
             await SaveAsync();
         }
 
         public async Task DeleteCourseAsync(ulong id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null) return;
-            _context.Courses.Remove(course);
+            //var course = await _context.Courses.FindAsync(id);
+            //if (course == null) return;
+            //_context.Courses.Remove(course);
             await SaveAsync();
         }
 
         public async Task UpdateCourseAsync(Course course)
         {
-            _context.Courses.Update(course);
+            //_context.Courses.Update(course);
             await SaveAsync();
         }
 
         public async Task SaveAsync()
         {
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
         }
 
         private bool _disposed = false;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this._disposed = true;
+            //if (!this._disposed)
+            //{
+            //    if (disposing)
+            //    {
+            //        _context.Dispose();
+            //    }
+            //}
+            //this._disposed = true;
         }
 
         public void Dispose()

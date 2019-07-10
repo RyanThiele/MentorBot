@@ -9,11 +9,11 @@ namespace DiscordBot.Data.Repositories
 {
     public class MentorRepository : IDisposable, IMentorRepository
     {
-        private readonly MentorContext _context;
+        //private readonly MentorContext _context;
 
         public MentorRepository()
         {
-            _context = new MentorContext();
+            //_context = new MentorContext();
         }
 
         public int GetCount()
@@ -34,51 +34,51 @@ namespace DiscordBot.Data.Repositories
 
         public async Task<IEnumerable<Mentor>> GetMentorsAsync()
         {
-            return await _context.Mentors.ToListAsync();
+            //return await _context.Mentors.ToListAsync();
         }
 
         public async Task<Mentor> GetMentorAsync(ulong id)
         {
-            return await _context.Mentors.FindAsync(id);
+            //return await _context.Mentors.FindAsync(id);
         }
 
         public async Task InsertMentorAsync(Mentor mentor)
         {
-            await _context.Mentors.AddAsync(mentor);
+            //await _context.Mentors.AddAsync(mentor);
             await SaveAsync();
         }
 
         public async Task DeleteMentorAsync(ulong id)
         {
-            var mentor = await _context.Mentors.FindAsync(id);
-            if (mentor is null) return;
-            _context.Mentors.Remove(mentor);
-            await SaveAsync();
+            //var mentor = await _context.Mentors.FindAsync(id);
+            //if (mentor is null) return;
+            //_context.Mentors.Remove(mentor);
+            //await SaveAsync();
         }
 
         public async Task UpdateMentorAsync(Mentor mentor)
         {
-            _context.Mentors.Update(mentor);
-            await SaveAsync();
+            //_context.Mentors.Update(mentor);
+            //await SaveAsync();
         }
 
         public async Task SaveAsync()
         {
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
         }
 
         private bool _disposed = false;
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this._disposed = true;
+            //if (!this._disposed)
+            //{
+            //    if (disposing)
+            //    {
+            //        _context.Dispose();
+            //    }
+            //}
+            //this._disposed = true;
         }
 
         public void Dispose()

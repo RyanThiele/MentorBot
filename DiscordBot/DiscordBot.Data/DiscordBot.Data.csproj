@@ -313,58 +313,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
-    <Compile Include="Contexts\CourseContext.cs" />
-    <Compile Include="Contexts\MenteeContext.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Contexts\MentorBotDbContext.cs" />
-    <Compile Include="Contexts\MentorContext.cs" />
-    <Compile Include="Migrations\Course\20190708183301_Relationships.cs" />
-    <Compile Include="Migrations\Course\20190708183301_Relationships.designer.cs">
-      <DependentUpon>20190708183301_Relationships.cs</DependentUpon>
+    <Compile Include="Migrations\20190710204016_Initial.cs" />
+    <Compile Include="Migrations\20190710204016_Initial.designer.cs">
+      <DependentUpon>20190710204016_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Course\20190710112621_reeee.cs" />
-    <Compile Include="Migrations\Course\20190710112621_reeee.designer.cs">
-      <DependentUpon>20190710112621_reeee.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Course\20190710140533_Notrequiredfield.cs" />
-    <Compile Include="Migrations\Course\20190710140533_Notrequiredfield.designer.cs">
-      <DependentUpon>20190710140533_Notrequiredfield.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Course\20190710141743_migrr.cs" />
-    <Compile Include="Migrations\Course\20190710141743_migrr.designer.cs">
-      <DependentUpon>20190710141743_migrr.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Course\CourseContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Mentee\20190708183333_initial.cs" />
-    <Compile Include="Migrations\Mentee\20190708183333_initial.designer.cs">
-      <DependentUpon>20190708183333_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Mentee\20190710140821_migr.cs" />
-    <Compile Include="Migrations\Mentee\20190710140821_migr.designer.cs">
-      <DependentUpon>20190710140821_migr.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Mentee\MenteeContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Mentor\20190708183347_initial.cs" />
-    <Compile Include="Migrations\Mentor\20190708183347_initial.designer.cs">
-      <DependentUpon>20190708183347_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Mentor\20190710140810_migr.cs" />
-    <Compile Include="Migrations\Mentor\20190710140810_migr.designer.cs">
-      <DependentUpon>20190710140810_migr.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Mentor\MentorContextModelSnapshot.cs" />
+    <Compile Include="Migrations\MentorBotDbContextModelSnapshot.cs" />
     <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Mentee.cs" />
-    <Compile Include="Models\Mentor.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserLanguages.cs" />
+    <Compile Include="Models\UserLanguage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\CourseRepository.cs" />
     <Compile Include="Repositories\ICourseRepository.cs" />
     <Compile Include="Repositories\IMenteeRepository.cs" />
     <Compile Include="Repositories\IMentorRepository.cs" />
-    <Compile Include="Repositories\MenteeRepository.cs" />
-    <Compile Include="Repositories\MentorRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiscordBot.Data.Models
 {
@@ -18,30 +16,30 @@ namespace DiscordBot.Data.Models
 
         public ulong TeacherId { get; set; }
 
-        public IList<ulong> Students { get; set; }
+        public virtual ICollection<User> Students { get; set; }
 
-        public Tuple<Constants.Languages, Constants.Levels> CourseDetails { get; set; }
+        //public Tuple<Constants.Languages, Constants.Levels> CourseDetails { get; set; }
 
         public int MaxMentees { get; set; }
 
-        public void Enroll(Mentee mentee)
-        {
-            Students.Add(mentee.Id);
-        }
+        //public void Enroll(Mentee mentee)
+        //{
+        //    //Students.Add(mentee.Id);
+        //}
 
-        public void Enroll(ulong id)
-        {
-            Students.Add(id);
-        }
+        //public void Enroll(ulong id)
+        //{
+        //   // Students.Add(id);
+        //}
 
-        public void DisEnroll(Mentee mentee)
-        {
-            Students.Remove(mentee.Id);
-        }
+        //public void DisEnroll(Mentee mentee)
+        //{
+        //    //Students.Remove(mentee.Id);
+        //}
 
-        public void DisEnroll(ulong id)
-        {
-            Students.Remove(id);
-        }
+        //public void DisEnroll(ulong id)
+        //{
+        //    //Students.Remove(id);
+        //}
     }
 }

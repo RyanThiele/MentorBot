@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
+﻿using Discord.Commands;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using DiscordBot.Data.Models;
-using DiscordBot.Data.Repositories;
 
 namespace DiscordBot.Modules
 {
@@ -20,15 +11,15 @@ namespace DiscordBot.Modules
         [Command("Mentors")]
         public async Task SearchMentors([Remainder] string arg = null)
         {
-            if (arg == null)
-            {
-                IList<Programmer> list = MentorRepo.GetMentors(0, PAGE_LENGTH);
-                int page = 1;
-                int totalPages = (MentorRepo.GetCount() / 20) + 1;
-                var embed = GetSearchEmbed($"Results Mentors", list, page, totalPages);
-                await Context.Channel.SendMessageAsync("", false, embed);
-                return;
-            }
+            //if (arg == null)
+            //{
+            //    IList<Programmer> list = MentorRepo.GetMentors(0, PAGE_LENGTH);
+            //    int page = 1;
+            //    int totalPages = (MentorRepo.GetCount() / 20) + 1;
+            //    var embed = GetSearchEmbed($"Results Mentors", list, page, totalPages);
+            //    await Context.Channel.SendMessageAsync("", false, embed);
+            //    return;
+            //}
 
             string[] arguments = arg.Split(' ');
 
@@ -51,34 +42,34 @@ namespace DiscordBot.Modules
         [Alias("Students")]
         public async Task SearchMentees([Remainder] string arg = null)
         {
-            if(arg == null)
-            {
-                IList<Programmer> list = MenteeRepo.GetMentees(0, 20);
-                int page = 1;
-                int totalPages = (MenteeRepo.GetCount() / 20) + 1;
-                var embed = GetSearchEmbed($"Results Mentees", list, page, totalPages);
-                await Context.Channel.SendMessageAsync("", false, embed);
-                return;
-            }
+            //if(arg == null)
+            //{
+            //    IList<Programmer> list = MenteeRepo.GetMentees(0, 20);
+            //    int page = 1;
+            //    int totalPages = (MenteeRepo.GetCount() / 20) + 1;
+            //    var embed = GetSearchEmbed($"Results Mentees", list, page, totalPages);
+            //    await Context.Channel.SendMessageAsync("", false, embed);
+            //    return;
+            //}
         }
 
-        private static Embed GetSearchEmbed(string header, IList<Programmer> results, int currentPage, int lastPage)
-        {
-            var builder = new EmbedBuilder();
-            builder.WithTitle(header);
+        //private static Embed GetSearchEmbed(string header, IList<Programmer> results, int currentPage, int lastPage)
+        //{
+        //    var builder = new EmbedBuilder();
+        //    builder.WithTitle(header);
 
-            var sb = new StringBuilder();
+        //    var sb = new StringBuilder();
 
-            foreach (Programmer user in results)
-            {
-                sb.AppendLine($"{user.Id}, {user.LanguagesToString()}");
-            }
+        //    foreach (Programmer user in results)
+        //    {
+        //        sb.AppendLine($"{user.Id}, {user.LanguagesToString()}");
+        //    }
 
-            builder.WithDescription(sb.ToString());
-            builder.WithFooter($"Page {currentPage}/{lastPage}");
+        //    builder.WithDescription(sb.ToString());
+        //    builder.WithFooter($"Page {currentPage}/{lastPage}");
 
-            return builder.Build();
-        }
+        //    return builder.Build();
+        //}
 
     }
 }

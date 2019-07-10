@@ -9,11 +9,11 @@ namespace DiscordBot.Data.Repositories
     {
         int GetCount();
         //List<Programmer> GetMentees(int begin, int end);
-        Task<IEnumerable<Mentee>> GetMenteesAsync();
-        Task<Mentee> GetMenteeAsync(ulong id);
-        Task InsertMenteeAsync(Mentee mentee);
-        Task DeleteMenteeAsync(ulong id);
-        Task UpdateMenteeAsync(Mentee mentee);
+        //Task<IEnumerable<Mentee>> GetMenteesAsync();
+        //Task<Mentee> GetMenteeAsync(ulong id);
+        //Task InsertMenteeAsync(Mentee mentee);
+        //Task DeleteMenteeAsync(ulong id);
+        //Task UpdateMenteeAsync(Mentee mentee);
         Task SaveAsync();
     }
 }

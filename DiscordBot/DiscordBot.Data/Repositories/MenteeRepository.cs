@@ -9,11 +9,11 @@ namespace DiscordBot.Data.Repositories
 {
     public class MenteeRepository : IMenteeRepository
     {
-        private readonly MenteeContext _context;
+        //private readonly MenteeContext _context;
 
         public MenteeRepository()
         {
-            _context = new MenteeContext();
+            //_context = new MenteeContext();
         }
 
         public int GetCount()
@@ -34,12 +34,12 @@ namespace DiscordBot.Data.Repositories
 
         public async Task<IEnumerable<Mentee>> GetMenteesAsync()
         {
-            return await _context.Mentees.ToListAsync();
+            //return await _context.Mentees.ToListAsync();
         }
 
         public async Task<Mentee> GetMenteeAsync(ulong id)
         {
-            return await _context.Mentees.FindAsync(id);
+            //return await _context.Mentees.FindAsync(id);
         }
 
         public async Task InsertMenteeAsync(Mentee mentee)
