@@ -71,5 +71,10 @@ namespace DiscordBot.Data.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public Task<IEnumerable<Course>> GetAllCoursesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

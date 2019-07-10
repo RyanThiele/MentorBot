@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DiscordBot.Data.Models;
+﻿using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace DiscordBot.Data
 {
@@ -25,16 +19,16 @@ namespace DiscordBot.Data
 
             modelBuilder.Entity<Mentor>(builder =>
             {
-                builder.Property(mentor => mentor.Id).IsRequired();
+                //builder.Property(mentor => mentor.Id).IsRequired();
 
-                builder.Property(mentor => mentor.Languages)
-                    .HasConversion(
-                        value => JsonConvert.SerializeObject(value, Formatting.None),
-                        serializedValue =>
-                            JsonConvert.DeserializeObject<Dictionary<Constants.Languages, Constants.Levels>>(
-                                serializedValue)
-                    )
-                    .IsRequired();
+                //builder.Property(mentor => mentor.Languages)
+                //    .HasConversion(
+                //        value => JsonConvert.SerializeObject(value, Formatting.None),
+                //        serializedValue =>
+                //            JsonConvert.DeserializeObject<Dictionary<Constants.Languages, Constants.Levels>>(
+                //                serializedValue)
+                //    )
+                //    .IsRequired();
             });
         }
     }

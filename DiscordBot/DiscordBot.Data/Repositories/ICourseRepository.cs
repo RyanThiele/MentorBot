@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DiscordBot.Data.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using DiscordBot.Data.Models;
 
 namespace DiscordBot.Data.Repositories
 {
@@ -12,5 +12,8 @@ namespace DiscordBot.Data.Repositories
         Task DeleteCourseAsync(ulong id);
         Task UpdateCourseAsync(Course mentor);
         Task SaveAsync();
+
+
+        Task<IEnumerable<Course>> GetAllCoursesAsync();
     }
 }

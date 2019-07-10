@@ -1,10 +1,9 @@
-﻿using System;
+﻿using DiscordBot.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DiscordBot.Data.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DiscordBot.Data.Repositories
 {
@@ -28,10 +27,10 @@ namespace DiscordBot.Data.Repositories
         /// <param name="begin"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public List<Programmer> GetMentees(int begin, int end)
-        {
-            return _context.Mentees.Skip(begin).Take(end).ToList<Programmer>();
-        }
+        //public List<Programmer> GetMentees(int begin, int end)
+        //{
+        //    return _context.Mentees.Skip(begin).Take(end).ToList<Programmer>();
+        //}
 
         public async Task<IEnumerable<Mentee>> GetMenteesAsync()
         {
