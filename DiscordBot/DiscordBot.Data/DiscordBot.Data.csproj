@@ -313,6 +313,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commnds\Search\IProgrammerSearch.cs" />
+    <Compile Include="Commnds\Search\ProgrammerSearchCommand.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Contexts\CourseContext.cs" />
     <Compile Include="Contexts\MenteeContext.cs" />
@@ -361,8 +363,10 @@
     <Compile Include="Repositories\ICourseRepository.cs" />
     <Compile Include="Repositories\IMenteeRepository.cs" />
     <Compile Include="Repositories\IMentorRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\MenteeRepository.cs" />
     <Compile Include="Repositories\MentorRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

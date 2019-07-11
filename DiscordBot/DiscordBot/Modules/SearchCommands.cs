@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using DiscordBot.Data.Commnds;
+using DiscordBot.Data.Commnds.Search;
 using DiscordBot.Data.Models;
 using DiscordBot.Data.Repositories;
 
@@ -22,7 +24,7 @@ namespace DiscordBot.Modules
         {
             if (arg == null)
             {
-                IList<Programmer> list = MentorRepo.GetMentors(0, PAGE_LENGTH);
+                IEnumerable<Programmer> list = await MentorRepo.GetMentorsSliceAsync(0, PAGE_LENGTH);
                 int page = 1;
                 int totalPages = (MentorRepo.GetCount() / 20) + 1;
                 var embed = GetSearchEmbed($"Results Mentors", list, page, totalPages);
@@ -30,21 +32,9 @@ namespace DiscordBot.Modules
                 return;
             }
 
-            string[] arguments = arg.Split(' ');
+            string reply = await GetSearchReply(MentorRepo, arg);
 
-            switch (arguments.Length)
-            {
-                case 1:
-
-                    break;
-                case 2:
-                    break;
-                default:
-                    await ReplyAsync("Dude, way too many arguments. I don't know that sheeet.");
-                    break;
-            }
-
-
+            await ReplyAsync(reply);
         }
 
         [Command("Mentees")]
@@ -53,16 +43,39 @@ namespace DiscordBot.Modules
         {
             if(arg == null)
             {
-                IList<Programmer> list = MenteeRepo.GetMentees(0, 20);
+                IEnumerable<Programmer> list = await MenteeRepo.GetMenteesSliceAsync(0, 20);
                 int page = 1;
                 int totalPages = (MenteeRepo.GetCount() / 20) + 1;
                 var embed = GetSearchEmbed($"Results Mentees", list, page, totalPages);
                 await Context.Channel.SendMessageAsync("", false, embed);
                 return;
             }
+
+            string reply = await GetSearchReply(MenteeRepo, arg);
+
+            await ReplyAsync(reply);
         }
 
-        private static Embed GetSearchEmbed(string header, IList<Programmer> results, int currentPage, int lastPage)
+        private async Task<string> GetSearchReply(IProgrammerSearch programmerSearch, string arg)
+        {
+            string reply = string.Empty;
+            try
+            {
+
+                ProgrammerSearchCommand command = new ProgrammerSearchCommand(programmerSearch);
+                IEnumerable<Programmer> results = await command.Search(arg);
+                reply = string.Join(',', results.Select(r => $"{r.Id} {r.LanguagesToString()}"));
+            }
+            catch (Exception ex)
+            {
+                reply = ex.Message;
+            }
+
+            return reply;
+
+        }
+
+        private static Embed GetSearchEmbed(string header, IEnumerable<Programmer> results, int currentPage, int lastPage)
         {
             var builder = new EmbedBuilder();
             builder.WithTitle(header);
