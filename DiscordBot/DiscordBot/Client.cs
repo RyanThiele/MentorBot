@@ -1,13 +1,11 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
+using DiscordBot.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DiscordBot
 {
@@ -17,6 +15,7 @@ namespace DiscordBot
 
         private CommandService _commands;
         private IServiceProvider _services;
+        private const string _token = "NTgzNjM4OTk0ODQ4NTc5NjM3.XO_Sdg.QmhxjqUZthztos6oWi2dWNsJORg";
 
         public Client()
         {
@@ -29,16 +28,19 @@ namespace DiscordBot
             _services = new ServiceCollection()
                 .AddSingleton(SocketClient)
                 .AddSingleton(_commands)
+                .AddSingleton<IMentorRepository, MentorRepository>()
+                .AddSingleton<IMenteeRepository, MenteeRepository>()
+                .AddSingleton<ICourseRepository, CourseRepository>()
                 .BuildServiceProvider();
 
             SocketClient.Log += Log;
             await RegisterCommandsAsync();
-            await SocketClient.LoginAsync(Discord.TokenType.Bot, "" );
+            await SocketClient.LoginAsync(Discord.TokenType.Bot, _token);
             await SocketClient.StartAsync();
 
             await Task.Delay(-1);
         }
-        
+
         public async Task RegisterCommandsAsync()
         {
             SocketClient.MessageReceived += HandleCommandAsync;
@@ -58,10 +60,10 @@ namespace DiscordBot
 
             if (!result.IsSuccess)
                 return;
-            
+
             var options = new RequestOptions { RetryMode = RetryMode.AlwaysRetry };
             //await msg.DeleteAsync(options);
-            
+
         }
 
         private Task Log(LogMessage arg)

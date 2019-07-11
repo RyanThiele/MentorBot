@@ -13,12 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="StandardIO">
-      <HintPath>D:\Users\Gebruiker\projects opslag\StandardIO\bin\Debug\StandardIO.exe</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DiscordBot.Data\DiscordBot.Data.csproj" />
     <ProjectReference Include="..\DiscordBot.Domain\DiscordBot.Domain.csproj" />
   </ItemGroup>
