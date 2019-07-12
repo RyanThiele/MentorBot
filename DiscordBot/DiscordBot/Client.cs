@@ -15,7 +15,7 @@ namespace DiscordBot
 
         private CommandService _commands;
         private IServiceProvider _services;
-        private const string _token = "NTgzNjM4OTk0ODQ4NTc5NjM3.XO_Sdg.QmhxjqUZthztos6oWi2dWNsJORg";
+        private const string TOKEN = "NTgzNjM4OTk0ODQ4NTc5NjM3.XO_Sdg.QmhxjqUZthztos6oWi2dWNsJORg";
 
         public Client()
         {
@@ -28,14 +28,13 @@ namespace DiscordBot
             _services = new ServiceCollection()
                 .AddSingleton(SocketClient)
                 .AddSingleton(_commands)
-                .AddSingleton<IMentorRepository, MentorRepository>()
-                .AddSingleton<IMenteeRepository, MenteeRepository>()
-                .AddSingleton<ICourseRepository, CourseRepository>()
+                .AddTransient<DiscordBot.Data.Ef.ApplicationDbContext>()
+                .AddSingleton<IUserRepository, UserRepository>()
                 .BuildServiceProvider();
 
             SocketClient.Log += Log;
             await RegisterCommandsAsync();
-            await SocketClient.LoginAsync(Discord.TokenType.Bot, _token);
+            await SocketClient.LoginAsync(Discord.TokenType.Bot, TOKEN);
             await SocketClient.StartAsync();
 
             await Task.Delay(-1);
@@ -57,10 +56,11 @@ namespace DiscordBot
 
             var context = new SocketCommandContext(SocketClient, msg);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
-
             if (!result.IsSuccess)
+            {
+                await context.Channel.SendMessageAsync($"Command was not successful: {result.ErrorReason}");
                 return;
-
+            }
             var options = new RequestOptions { RetryMode = RetryMode.AlwaysRetry };
             //await msg.DeleteAsync(options);
 

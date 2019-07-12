@@ -1,22 +1,25 @@
-﻿using System;
+﻿using DiscordBot.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DiscordBot.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using static DiscordBot.Data.Constants;
 
 namespace DiscordBot.Data.Repositories
 {
-    public class MenteeRepository : RepositoryBase<MenteeContext, Mentee>, IMenteeRepository
+    public class MenteeRepository : IMenteeRepository
     {
+        //private readonly MenteeContext _context;
 
-        public MenteeRepository() : base()
+        public MenteeRepository()
         {
+            //_context = new MenteeContext();
         }
 
-        public int GetCount() => Count();
+        public int GetCount()
+        {
+            return _context.Mentees.Count();
+        }
 
         /// <summary>
         /// Returns mentees from begin to end index
@@ -24,38 +27,65 @@ namespace DiscordBot.Data.Repositories
         /// <param name="begin"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Mentee>> GetMenteesSliceAsync(int begin, int end) => await Slice(begin, end).ToListAsync();
+        //public List<Programmer> GetMentees(int begin, int end)
+        //{
+        //    return _context.Mentees.Skip(begin).Take(end).ToList<Programmer>();
+        //}
 
-        public async Task<IEnumerable<Mentee>> GetMenteesAsync() => await GetAll().ToListAsync();
+        public async Task<IEnumerable<Mentee>> GetMenteesAsync()
+        {
+            //return await _context.Mentees.ToListAsync();
+        }
 
-        public async Task<Mentee> GetMenteeAsync(ulong id) =>
-            await Find(m => m.Id == id).SingleOrDefaultAsync();
-
+        public async Task<Mentee> GetMenteeAsync(ulong id)
+        {
+            //return await _context.Mentees.FindAsync(id);
+        }
 
         public async Task InsertMenteeAsync(Mentee mentee)
         {
-            Insert(mentee);
+            await _context.Mentees.AddAsync(mentee);
             await SaveAsync();
         }
 
         public async Task DeleteMenteeAsync(ulong id)
         {
-            var mentee = await GetMenteeAsync(id);
-            Delete(mentee);
+            var mentee = await _context.Mentees.FindAsync(id);
+            if (mentee is null) return;
+            _context.Mentees.Remove(mentee);
             await SaveAsync();
         }
 
         public async Task UpdateMenteeAsync(Mentee mentee)
         {
-            Update(mentee);
+            _context.Mentees.Update(mentee);
             await SaveAsync();
         }
 
-        public async Task<IEnumerable<Programmer>> SearchLanguage(Languages language) =>
-            await Find(m => m.Languages.ContainsKey(language)).ToListAsync();
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
 
-        public async Task<IEnumerable<Programmer>> SearchLevel(Levels level) =>
-            await Find(m => m.Languages.ContainsValue(level)).ToListAsync();
+        private bool _disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this._disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            this._disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
     }
 }

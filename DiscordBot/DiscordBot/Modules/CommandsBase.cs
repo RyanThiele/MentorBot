@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Discord.Commands;
+﻿using Discord.Commands;
+using DiscordBot.Data;
 using DiscordBot.Data.Repositories;
 
 namespace DiscordBot.Modules
 {
     public class CommandsBase : ModuleBase<SocketCommandContext>
     {
-        protected readonly IMenteeRepository MenteeRepo = new MenteeRepository();
-        protected readonly IMentorRepository MentorRepo = new MentorRepository();
-        protected readonly ICourseRepository CourseRepo = new CourseRepository();
+        protected readonly IMenteeRepository _menteeRepository;
+        protected readonly IMentorRepository _mentorRepository;
+        protected readonly ICourseRepository _courseRepository;
+
+        public CommandsBase(IMenteeRepository menteeRepository, IMentorRepository mentorRepository, ICourseRepository courseRepository)
+        {
+            _menteeRepository = menteeRepository;
+            _mentorRepository = mentorRepository;
+            _courseRepository = courseRepository;
+
+        }
     }
 }

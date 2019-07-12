@@ -1,75 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DiscordBot.Data.Models;
+﻿using DiscordBot.Data.Ef;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DiscordBot.Data.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly CourseContext _context;
-
-        public CourseRepository()
-        {
-            _context = new CourseContext();
-        }
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
-            return await _context.Courses.ToListAsync();
+            return await db.Courses.ToListAsync();
         }
 
         public async Task<Course> GetCourseAsync(ulong id)
         {
-            return await _context.Courses.FindAsync(id);
+            return await db.Courses.FindAsync(id);
         }
 
-        public async Task InsertCourseAsync(Course course)
+        public async Task AddCourseAsync(Course course)
         {
-            await _context.Courses.AddAsync(course);
-            await SaveAsync();
+            await db.Courses.AddAsync(course);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteCourseAsync(ulong id)
         {
-            var course = await _context.Courses.FindAsync(id);
+            var course = await db.Courses.FindAsync(id);
             if (course == null) return;
-            _context.Courses.Remove(course);
-            await SaveAsync();
+            db.Courses.Remove(course);
+            await db.SaveChangesAsync();
         }
 
         public async Task UpdateCourseAsync(Course course)
         {
-            _context.Courses.Update(course);
-            await SaveAsync();
-        }
-
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        private bool _disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this._disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            db.Courses.Update(course);
+            await db.SaveChangesAsync();
         }
     }
 }

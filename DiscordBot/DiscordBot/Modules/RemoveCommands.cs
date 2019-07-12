@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Discord.Commands;
+﻿using Discord.Commands;
 using DiscordBot.Data;
-using DiscordBot.Data.Models;
 using DiscordBot.Data.Repositories;
+using System;
+using System.Threading.Tasks;
 
 namespace DiscordBot.Modules
 {
     [Group("Del")]
     [Alias("Remove")]
-    public class RemoveCommands : CommandsBase
+    public class RemoveCommands : ModuleBase<SocketCommandContext>
     {
+        private readonly IUserRepository _userRepository;
+
+        public RemoveCommands(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         [Command("test")]
         public async Task Test()
@@ -28,13 +31,13 @@ namespace DiscordBot.Modules
             string type = arg.Split(' ')[0];
             string lang = arg.Split(' ')[1];
 
-            Constants.UserTypes userType;
-            Constants.Languages language;
+            Roles role;
+            ProgrammingLanguages programmingLanguage;
 
             try
             {
-                userType = (Constants.UserTypes)Enum.Parse(typeof(Constants.UserTypes), type, true);
-                language = (Constants.Languages)Enum.Parse(typeof(Constants.Languages), lang, true);
+                role = (Roles)Enum.Parse(typeof(Roles), type, true);
+                programmingLanguage = (ProgrammingLanguages)Enum.Parse(typeof(ProgrammingLanguages), lang, true);
             }
             catch
             {
@@ -44,43 +47,31 @@ namespace DiscordBot.Modules
 
             ulong userId = Context.User.Id;
 
-            if (userType == Constants.UserTypes.Mentor)
+            Roles? existingRole = await _userRepository.GetUserRoleByUserIdAsync(userId);
+            if (!existingRole.HasValue)
             {
-                Mentor mentor = await MentorRepo.GetMentorAsync(userId);
-                if (mentor == null)
-                {
-                    await ReplyAsync("You are not subscribed from the mentor role!");
-                    return;
-                }
-
-                if (!mentor.Languages.ContainsKey(language))
-                {
-                    await ReplyAsync("You do not have this language in your arsenal yet!");
-                    return;
-                }
-
-                mentor.Languages.Remove(language);
-                await MentorRepo.UpdateMentorAsync(mentor);
-                await ReplyAsync($"You have successfully removed {language} from you arsenal!");
+                await ReplyAsync("You are not subscribed to the mentor role!");
+                return;
             }
-            else
+
+            ProgrammingLanguages? existingProgrammingLanguage = await _userRepository.GetUserProgrammingLanguageByUserIdAndProgrammingLanguageAsync(userId, programmingLanguage);
+            if (!existingProgrammingLanguage.HasValue)
             {
-                Mentee mentee = await MenteeRepo.GetMenteeAsync(userId);
-                if (mentee == null)
-                {
-                    await ReplyAsync("You are not subscribed from the mentee role!");
-                    return;
-                }
-
-                if (!mentee.Languages.ContainsKey(language))
-                {
-                    await ReplyAsync("You do not have this language in your arsenal yet!");
-                }
-
-                mentee.Languages.Remove(language);
-                await MenteeRepo.UpdateMenteeAsync(mentee);
-                await ReplyAsync($"You have successfully removed {language} from you arsenal!");
+                await ReplyAsync("You do not have this language in your arsenal yet!");
+                return;
             }
+
+            // remove the language from the user
+            try
+            {
+                await _userRepository.RemoveUserLanguageAsync(userId, programmingLanguage);
+                await ReplyAsync($"You have successfully removed {programmingLanguage} from you arsenal!");
+            }
+            catch (Exception ex)
+            {
+                await ReplyAsync($"There was an error processing your request: {ex.Message}.");
+            }
+
         }
     }
 

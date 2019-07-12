@@ -1,18 +1,26 @@
-﻿using System;
+﻿using Discord;
+using Discord.Commands;
+using DiscordBot.Data;
+using DiscordBot.Data.Ef;
+using DiscordBot.Data.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using DiscordBot.Data;
-using DiscordBot.Data.Models;
-using DiscordBot.Data.Repositories;
 
 namespace DiscordBot.Modules
 {
-    public class DefaultCommands : CommandsBase
+    public class DefaultCommands : ModuleBase<SocketCommandContext>
     {
+        private readonly IUserRepository _userRepository;
+
+        public DefaultCommands(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+
         [Command("test")]
         public async Task Test([Remainder]int amount = 0)
         {
@@ -23,63 +31,58 @@ namespace DiscordBot.Modules
         [Command("Subscribe")]
         public async Task Subscribe([Remainder] string type)
         {
-            Constants.UserTypes userType;
+            Roles role;
             try
             {
-                userType = (Constants.UserTypes)Enum.Parse(typeof(Constants.UserTypes), type, true);
+                role = (Roles)Enum.Parse(typeof(Roles), type, true);
             }
             catch { return; }
 
-            switch (userType)
+            // get the user role.
+            Roles existingRole = await _userRepository.GetUserRoleByUserIdAsync(Context.User.Id);
+
+
+            switch (role)
             {
-                case Constants.UserTypes.Mentor:
-                    Mentor mentor = await MentorRepo.GetMentorAsync(Context.User.Id);
-                    if (mentor != null)
+                case Roles.Mentor:
+                    if (existingRole != 0)
                     {
                         await ReplyAsync($"You are already subscribed from the {type} role");
                         return;
                     }
-
-                    mentor = new Mentor(Context.User.Id);
-                    await MentorRepo.InsertMentorAsync(mentor);
                     break;
-                case Constants.UserTypes.Mentee:
-                    Mentee mentee = await MenteeRepo.GetMenteeAsync(Context.User.Id);
-
-                    if (mentee != null)
+                case Roles.Mentee:
+                    if (existingRole != 0)
                     {
                         await ReplyAsync($"You are already subscribed from the {type} role");
                         return;
                     }
-
-                    mentee = new Mentee(Context.User.Id);
-                    await MenteeRepo.InsertMenteeAsync(mentee);
                     break;
+
             }
+
+            // if we get to here, all conditions have been met.
+            User user = new User()
+            {
+                UserId = Context.User.Id,
+                Role = Roles.Mentor
+            };
+
+            await _userRepository.AddUserAsync(user);
             await ReplyAsync($"You have been successfully subscribed from the {type.ToLower()} role.");
         }
 
         [Command("Unsubscribe")]
         public async Task Unsubscribe([Remainder] string type)
         {
-            Constants.UserTypes userType;
+            Roles role;
             try
             {
-                userType = (Constants.UserTypes) Enum.Parse(typeof(Constants.UserTypes), type, true);
+                role = (Roles)Enum.Parse(typeof(Roles), type, true);
             }
             catch { return; }
 
-            switch (userType)
-            {
-                case Constants.UserTypes.Mentor:
-                    await MentorRepo.DeleteMentorAsync(Context.User.Id);
-                    break;
-
-                case Constants.UserTypes.Mentee:
-                    await MenteeRepo.DeleteMenteeAsync(Context.User.Id);
-                    break;
-            }
-
+            await _userRepository.RemoveUserRoleAsync(Context.User.Id);
             await ReplyAsync($"You have been successfully unsubscribed from the {type.ToLower()} role");
         }
 
@@ -116,22 +119,20 @@ namespace DiscordBot.Modules
         [Alias("User", "Info")]
         public async Task UserInfo([Remainder] ulong userId)
         {
-            var mentee = await MenteeRepo.GetMenteeAsync(userId);
-            var mentor = await MentorRepo.GetMentorAsync(userId);
+            User user = await _userRepository.GetUserByUserIdAsync(userId);
 
-            if (mentee == null && mentor == null)
+            if (user == null)
             {
                 await ReplyAsync("User does not exist or did not unsubscribe from a mentor or mentee role yet.");
                 return;
             }
 
-
             await Context.Channel.SendMessageAsync("", false,
-                GetEmbed(Context.User.Username, Context.User.GetAvatarUrl(), mentee, mentor));
+                GetEmbed(Context.User.Username, Context.User.GetAvatarUrl(), user));
         }
 
 
-        private static Embed GetEmbed(string name, string url, Mentee mentee, Mentor mentor)
+        private static Embed GetEmbed(string name, string url, User user)
         {
             EmbedBuilder embed = new EmbedBuilder();
             embed.WithAuthor(name, url);
@@ -139,22 +140,25 @@ namespace DiscordBot.Modules
             embed.WithThumbnailUrl(url);
             StringBuilder sb = new StringBuilder();
 
-            if (mentee != null)
+            IEnumerable<UserLanguage> mentrorUserLanguages = user.UserLanguages.Where(x => x.Role == Roles.Mentor);
+            IEnumerable<UserLanguage> menteeUserLanguages = user.UserLanguages.Where(x => x.Role == Roles.Mentee);
+
+            if (menteeUserLanguages != null && menteeUserLanguages.Count() > 0)
             {
                 sb.AppendLine("Mentee in:");
-                foreach (var pair in mentee.Languages)
+                foreach (var userLanguage in user.UserLanguages)
                 {
-                    sb.AppendLine($"Language: {pair.Key}, Level: {pair.Value}");
+                    sb.AppendLine($"Language: {userLanguage.ProgrammingLanguage}, Level: {userLanguage.CompetenceLevel}");
                 }
             }
 
-            if (mentor != null)
+            if (mentrorUserLanguages != null && menteeUserLanguages.Count() > 0)
             {
                 sb.AppendLine("Mentor in:");
 
-                foreach (var pair in mentor.Languages)
+                foreach (var userLanguage in user.UserLanguages)
                 {
-                    sb.AppendLine($"Language: {pair.Key}, Level: {pair.Value}");
+                    sb.AppendLine($"Language: {userLanguage.ProgrammingLanguage}, Level: {userLanguage.CompetenceLevel}");
                 }
             }
 
