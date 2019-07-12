@@ -1,21 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace DiscordBot.Data.Models
+namespace DiscordBot.Data.Ef
 {
     public class User
     {
-        public User()
-        {
-
-        }
-
         public ulong UserId { get; set; }
+        public Roles Role { get; set; }
         public virtual IList<UserLanguage> UserLanguages { get; set; }
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
 
     }
 }

@@ -6,12 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Modules\AddCommands.cs" />
     <Compile Remove="Modules\CommandsBase.cs" />
-    <Compile Remove="Modules\DefaultCommands.cs" />
-    <Compile Remove="Modules\RemoveCommands.cs" />
-    <Compile Remove="Modules\RequestCommands.cs" />
-    <Compile Remove="Modules\SearchCommands.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,10 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DiscordBot.Data\DiscordBot.Data.csproj" />
     <ProjectReference Include="..\DiscordBot.Domain\DiscordBot.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Modules\" />
   </ItemGroup>
 
 </Project>

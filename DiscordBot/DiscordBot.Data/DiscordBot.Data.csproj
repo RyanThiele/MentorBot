@@ -314,25 +314,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
-    <Compile Include="Contexts\MentorBotDbContext.cs" />
-    <Compile Include="Migrations\20190710214444_Initial.cs" />
-    <Compile Include="Migrations\20190710214444_Initial.designer.cs">
-      <DependentUpon>20190710214444_Initial.cs</DependentUpon>
+    <Compile Include="EF\ApplicationDbContext.cs" />
+    <Compile Include="EF\Course.cs" />
+    <Compile Include="EF\User.cs" />
+    <Compile Include="EF\UserLanguage.cs" />
+    <Compile Include="Migrations\20190712135526_Initial.cs" />
+    <Compile Include="Migrations\20190712135526_Initial.designer.cs">
+      <DependentUpon>20190712135526_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\MentorBotDbContextModelSnapshot.cs" />
-    <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserLanguage.cs" />
+    <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CourseRepository.cs" />
     <Compile Include="Repositories\ICourseRepository.cs" />
-    <Compile Include="Repositories\IMenteeRepository.cs" />
-    <Compile Include="Repositories\IMentorRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

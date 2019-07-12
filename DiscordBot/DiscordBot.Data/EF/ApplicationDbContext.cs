@@ -1,21 +1,20 @@
-﻿using DiscordBot.Data.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace DiscordBot.Data.Contexts
+namespace DiscordBot.Data.Ef
 {
     /// <summary>
     /// An overall context to deal with SqlServer database access
     /// </summary>
-    public class MentorBotDbContext : DbContext
+    public class ApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         private readonly string _connnectionString = "Data Source = (localdb)\\MSSQLLocalDB;Initial Catalog = DiscordDb; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-        public MentorBotDbContext()
+        public ApplicationDbContext()
         {
 
         }
 
-        public MentorBotDbContext(string connectionString)
+        public ApplicationDbContext(string connectionString)
         {
             _connnectionString = connectionString;
         }
@@ -26,6 +25,11 @@ namespace DiscordBot.Data.Contexts
             {
                 optionsBuilder.UseSqlServer(_connnectionString);
             }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
         }
 
         public DbSet<Course> Courses { get; set; }

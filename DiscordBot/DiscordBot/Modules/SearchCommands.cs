@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace DiscordBot.Modules
 {
     [Group("Search")]
-    public class SearchCommands : CommandsBase
+    public class SearchCommands : ModuleBase<SocketCommandContext>
     {
         private const int PAGE_LENGTH = 20;
 

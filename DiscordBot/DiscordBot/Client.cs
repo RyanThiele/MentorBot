@@ -1,13 +1,11 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Discord;
+using DiscordBot.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DiscordBot
 {
@@ -17,6 +15,7 @@ namespace DiscordBot
 
         private CommandService _commands;
         private IServiceProvider _services;
+        private const string TOKEN = "NTgzNjM4OTk0ODQ4NTc5NjM3.XO_Sdg.QmhxjqUZthztos6oWi2dWNsJORg";
 
         public Client()
         {
@@ -29,16 +28,18 @@ namespace DiscordBot
             _services = new ServiceCollection()
                 .AddSingleton(SocketClient)
                 .AddSingleton(_commands)
+                .AddTransient<DiscordBot.Data.Ef.ApplicationDbContext>()
+                .AddSingleton<IUserRepository, UserRepository>()
                 .BuildServiceProvider();
 
             SocketClient.Log += Log;
             await RegisterCommandsAsync();
-            await SocketClient.LoginAsync(Discord.TokenType.Bot, "" );
+            await SocketClient.LoginAsync(Discord.TokenType.Bot, TOKEN);
             await SocketClient.StartAsync();
 
             await Task.Delay(-1);
         }
-        
+
         public async Task RegisterCommandsAsync()
         {
             SocketClient.MessageReceived += HandleCommandAsync;
@@ -55,13 +56,14 @@ namespace DiscordBot
 
             var context = new SocketCommandContext(SocketClient, msg);
             var result = await _commands.ExecuteAsync(context, argPos, _services);
-
             if (!result.IsSuccess)
+            {
+                await context.Channel.SendMessageAsync($"Command was not successful: {result.ErrorReason}");
                 return;
-            
+            }
             var options = new RequestOptions { RetryMode = RetryMode.AlwaysRetry };
             //await msg.DeleteAsync(options);
-            
+
         }
 
         private Task Log(LogMessage arg)

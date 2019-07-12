@@ -1,82 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DiscordBot.Data.Models;
+﻿using DiscordBot.Data.Ef;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DiscordBot.Data.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        //private readonly CourseContext _context;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
-        public CourseRepository()
+        public async Task<IEnumerable<Course>> GetCoursesAsync()
         {
-           // _context = new CourseContext();
+            return await db.Courses.ToListAsync();
         }
 
-        public  Task<IEnumerable<Course>> GetCoursesAsync()
+        public async Task<Course> GetCourseAsync(ulong id)
         {
-            return null;
-            //return await _context.Courses.ToListAsync();
+            return await db.Courses.FindAsync(id);
         }
 
-        public Task<Course> GetCourseAsync(ulong id)
+        public async Task AddCourseAsync(Course course)
         {
-            return null;
-            //return await _context.Courses.FindAsync(id);
-        }
-
-        public async Task InsertCourseAsync(Course course)
-        {
-            //await _context.Courses.AddAsync(course);
-            await SaveAsync();
+            await db.Courses.AddAsync(course);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteCourseAsync(ulong id)
         {
-            //var course = await _context.Courses.FindAsync(id);
-            //if (course == null) return;
-            //_context.Courses.Remove(course);
-            await SaveAsync();
+            var course = await db.Courses.FindAsync(id);
+            if (course == null) return;
+            db.Courses.Remove(course);
+            await db.SaveChangesAsync();
         }
 
         public async Task UpdateCourseAsync(Course course)
         {
-            //_context.Courses.Update(course);
-            await SaveAsync();
-        }
-
-        public async Task SaveAsync()
-        {
-            //await _context.SaveChangesAsync();
-        }
-
-        private bool _disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            //if (!this._disposed)
-            //{
-            //    if (disposing)
-            //    {
-            //        _context.Dispose();
-            //    }
-            //}
-            //this._disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public Task<IEnumerable<Course>> GetAllCoursesAsync()
-        {
-            throw new NotImplementedException();
+            db.Courses.Update(course);
+            await db.SaveChangesAsync();
         }
     }
 }

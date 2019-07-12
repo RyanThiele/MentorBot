@@ -1,4 +1,4 @@
-﻿using DiscordBot.Data.Models;
+﻿using DiscordBot.Data.Ef;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,12 +8,8 @@ namespace DiscordBot.Data.Repositories
     {
         Task<IEnumerable<Course>> GetCoursesAsync();
         Task<Course> GetCourseAsync(ulong id);
-        Task InsertCourseAsync(Course mentor);
+        Task AddCourseAsync(Course mentor);
         Task DeleteCourseAsync(ulong id);
         Task UpdateCourseAsync(Course mentor);
-        Task SaveAsync();
-
-
-        Task<IEnumerable<Course>> GetAllCoursesAsync();
     }
 }

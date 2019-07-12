@@ -1,4 +1,6 @@
-﻿namespace DiscordBot.Data
+﻿using System;
+
+namespace DiscordBot.Data
 {
     public enum ProgrammingLanguages
     {
@@ -17,9 +19,11 @@
         Beginner
     }
 
-    public enum UserLanguageRoles
+    [Flags]
+    public enum Roles
     {
-        Mentor,
-        Mentee
+        Mentor = 1,
+        Mentee = 2,
+        Admin = 4
     }
 }
