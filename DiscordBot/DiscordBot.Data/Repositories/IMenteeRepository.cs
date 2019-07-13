@@ -1,4 +1,4 @@
-﻿using DiscordBot.Data.Models;
+using DiscordBot.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,3 +17,4 @@ namespace DiscordBot.Data.Repositories
         Task SaveAsync();
     }
 }
+© 2019 GitHub, Inc.

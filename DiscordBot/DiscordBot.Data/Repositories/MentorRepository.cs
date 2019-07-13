@@ -1,4 +1,4 @@
-﻿using DiscordBot.Data.Models;
+using DiscordBot.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
